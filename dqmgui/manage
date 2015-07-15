@@ -219,6 +219,7 @@ start()
         $DQM_DATA/agents/import-local \
         $DQM_DATA/agents/import-offsite \
         $DQM_DATA/agents/import-test
+        $DQM_DATA/agents/import-fu04
 
       startagent $D/agent-import-128 \
         visDQMImportDaemon \
@@ -272,6 +273,18 @@ start()
       startagent $D/agent-import-128 \
         visDQMImportDaemon \
         $DQM_DATA/agents/import-test \
+        $DQM_DATA/repository/original \
+        $STATEDIR/online/ix128
+      ;;
+
+    fu-c2f13-41-04:*agents* ) # dqm-indexing machine created to survive the lack of space on the production machines
+      refuseproc "file agents" "visDQMIndex" "refusing to restart"
+
+      D=online
+      DQM_DATA=/dqmdata/dqm
+      startagent $D/agent-import-128 \
+        visDQMImportDaemon \
+        $DQM_DATA/agents/import-fu04 \
         $DQM_DATA/repository/original \
         $STATEDIR/online/ix128
       ;;
