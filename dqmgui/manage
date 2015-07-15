@@ -286,7 +286,10 @@ start()
         visDQMImportDaemon \
         $DQM_DATA/agents/import-fu04 \
         $DQM_DATA/repository/original \
-        $STATEDIR/online/ix128
+        $STATEDIR/online/ix128 \
+        --rsync \
+	--time 19:15
+        --email broen.van.besien@cern.ch
       ;;
 
     vocms13[89]:*agents* ) # SLC5 relval/offline/caf server
