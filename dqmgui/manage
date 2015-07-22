@@ -212,14 +212,17 @@ start()
 
       D=online
       DQM_DATA=/dqmdata/dqm
-      startagent $D/agent-receive \
-        visDQMReceiveDaemon \
-        $DQM_DATA/uploads \
-        $DQM_DATA/repository/original \
-        $DQM_DATA/agents/import-local \
-        $DQM_DATA/agents/import-offsite \
-        $DQM_DATA/agents/import-test \
-        $DQM_DATA/agents/import-fu04
+
+      # Receive should only run on one and only one locations.
+      # We now move it the new server
+      ##startagent $D/agent-receive \
+      ##  visDQMReceiveDaemon \
+      ##  $DQM_DATA/uploads \
+      ##  $DQM_DATA/repository/original \
+      ##  $DQM_DATA/agents/import-local \
+      ##  $DQM_DATA/agents/import-offsite \
+      ##  $DQM_DATA/agents/import-test \
+      ##  $DQM_DATA/agents/import-fu04
 
       startagent $D/agent-import-128 \
         visDQMImportDaemon \
@@ -299,21 +302,21 @@ start()
       D=online
       DQM_DATA=/dqmdata/dqm
 
-      ##startagent $D/agent-receive \
-      ##  visDQMReceiveDaemon \
-      ##  $DQM_DATA/uploads \
-      ##  $DQM_DATA/repository/original \
-      ##  $DQM_DATA/agents/import-local \
-      ##  $DQM_DATA/agents/import-offsite \
-      ##  $DQM_DATA/agents/import-test \
-      ##  $DQM_DATA/agents/import-fu04 \
-      ##  $DQM_DATA/agents/import-srv-c2f11-29-01 \
-      ##  $DQM_DATA/agents/import-srv-c2f11-29-02 \
-      ##  $DQM_DATA/agents/import-srv-c2f11-29-04
-      ##  # The above list now has 7 entries:
-      ##  #   the 3 old servers
-      ##  #   the temporary server
-      ##  #   the 3 new servers
+      startagent $D/agent-receive \
+        visDQMReceiveDaemon \
+        $DQM_DATA/uploads \
+        $DQM_DATA/repository/original \
+        $DQM_DATA/agents/import-local \
+        $DQM_DATA/agents/import-offsite \
+        $DQM_DATA/agents/import-test \
+        $DQM_DATA/agents/import-fu04 \
+        $DQM_DATA/agents/import-srv-c2f11-29-01 \
+        $DQM_DATA/agents/import-srv-c2f11-29-02 \
+        $DQM_DATA/agents/import-srv-c2f11-29-04
+        # The above list now has 7 entries:
+        #   the 3 old servers
+        #   the temporary server
+        #   the 3 new servers
 
       startagent $D/agent-import-128 \
         visDQMImportDaemon \
