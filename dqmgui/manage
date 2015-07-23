@@ -723,11 +723,23 @@ start()
       ;;
   esac
 
-  # finally start collector
+  # Start collector
   case $FLAVOR:$HOST:${1:-collector} in
-    online:dqm-c2d07-[01]1:*collector* )
+    # 3 pre 07/2015 servers: No collector:
+    online:dqm-c2d07-01:*collector* ) ;;
+    online:dqm-c2d07-02:*collector* ) ;;
+    online:dqm-c2d07-12:*collector* ) ;;
+    # 3 post 07/2015 servers: Collector for the first one, no collector for the other two:
+    online:srv-c2f11-29-01:*collector* )
       DQMCollector --listen 9090 </dev/null 2>&1 | rotatelogs $LOGDIR/$FLAVOR/collector-%Y%m%d.log 86400 >/dev/null 2>&1 & ;;
-    online:dqm-c2d07-[01]2:*collector* ) ;;
+    online:srv-c2f11-29-02:*collector* ) ;;
+    online:srv-c2f11-29-04:*collector* ) ;;
+    # Playback servers: Both get their own collector:
+    online:dqm-c2d07-11:*collector* )
+      DQMCollector --listen 9090 </dev/null 2>&1 | rotatelogs $LOGDIR/$FLAVOR/collector-%Y%m%d.log 86400 >/dev/null 2>&1 & ;;
+    online:srv-c2f11-29-03:*collector* )
+      DQMCollector --listen 9090 </dev/null 2>&1 | rotatelogs $LOGDIR/$FLAVOR/collector-%Y%m%d.log 86400 >/dev/null 2>&1 & ;;
+    # Rest/default: Standard collector:
     online:*:*collector* )
       DQMCollector --listen 9190 </dev/null 2>&1 | rotatelogs $LOGDIR/$FLAVOR/collector-%Y%m%d.log 86400 >/dev/null 2>&1 & ;;
     *:*:*collector* )
