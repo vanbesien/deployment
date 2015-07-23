@@ -123,7 +123,7 @@ elif HOSTALIAS == 'srv-c2f11-29-01':
   BASEURL     = '/dqm/online'
   UPLOADDIR   = '/dqmdata/dqm/uploads'
   FILEREPO    = {'Original': '/dqmdata/dqm/repository/original/OnlineData'}
-  COLLHOST    = 'localhost'
+  COLLHOST    = 'srv-c2f11-29-01.cms'
 
 elif HOSTALIAS == 'srv-c2f11-29-02':
   COLLPORT    = 9090
