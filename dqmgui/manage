@@ -725,8 +725,10 @@ start()
 
   # Start collector
   case $FLAVOR:$HOST:${1:-collector} in
-    # 3 pre 07/2015 servers: No collector:
-    online:dqm-c2d07-01:*collector* ) ;;
+    # 3 pre 07/2015 servers: No collector necessary, but keeping one on the
+    # first one for backwards compatibility during migration.
+    online:dqm-c2d07-01:*collector* )
+      DQMCollector --listen 9090 </dev/null 2>&1 | rotatelogs $LOGDIR/$FLAVOR/collector-%Y%m%d.log 86400 >/dev/null 2>&1 & ;;
     online:dqm-c2d07-02:*collector* ) ;;
     online:dqm-c2d07-12:*collector* ) ;;
     # 3 post 07/2015 servers: Collector for the first one, no collector for the other two:
