@@ -20,7 +20,12 @@ LAYOUTS += reglob("%s/layouts/shift_[^-_]*_layout.py" % CONFIGDIR)
 LAYOUTS += reglob("%s/layouts/.*_overview_layouts.py" % CONFIGDIR)
 
 # Do not modify configuration below this line.
-DQMSERVERS  = ["dqm-prod-local", "dqm-prod-offsite", "dqm-integration", "dqm-test"]
+# 1st line: post 07/2015 servers
+# 2nd line: server aliases
+# 3rd line: pre 07/2015 servers
+DQMSERVERS  = ['srv-c2f11-29-01', 'srv-c2f11-29-02',  'srv-c2f11-29-03', 'srv-c2f11-29-04',
+               'dqm-prod-local',  'dqm-prod-offsite', 'dqm-integration', 'dqm-test',
+               'dqm-C2D07-01',    'dqm-C2D07-02',     'dqm-C2D07-11',    'dqm-C2D07-12',]
 HOST        = socket.gethostname().lower()
 DOMAIN      = socket.getfqdn().split('.',1)[-1].lower()
 HOSTADDR    = socket.getaddrinfo(HOST, None)[0][4][0]
@@ -40,29 +45,109 @@ for alias in DQMSERVERS:
     if len([x for x in socket.getaddrinfo(alias, None) if x[4][0] == HOSTADDR]):
       HOSTALIAS = alias
       break
-  except: pass
+  except:
+    pass
 
-# Figure out settings for DQM servers
-if HOSTALIAS in DQMSERVERS:
+# Specific settings for online DQM fixed servers
+# We try to be as explicit as possible here:
+if HOSTALIAS == 'dqm-prod-local':
   COLLPORT    = 9090
   SERVERPORT  = 8030
-  if HOSTALIAS == 'dqm-integration':
-    SERVICENAME = 'Online Playback'
-    BASEURL     = '/dqm/online-playback'
+  SERVICENAME = 'Online'
+  BASEURL     = '/dqm/online'
+  UPLOADDIR   = '/dqmdata/dqm/uploads'
+  FILEREPO    = {'Original': '/dqmdata/dqm/repository/original/OnlineData'}
+  COLLHOST    = 'srv-c2f11-29-01.cms'
 
-  else:
-    FILEREPO    = { "ROOT": "/dqmdata/dqm/repository/original/OnlineData",
-                    "Original": "/dqmdata/dqm/repository/original/OnlineData",
-                    "Merged": "/dqmdata/dqm/repository/merged/OnlineData" }
-    COLLHOST    = HOSTALIAS != 'dqm-prod-local' and 'dqm-prod-local.cms' or 'localhost'
-    if HOSTALIAS == 'dqm-test':
-      SERVICENAME = 'Online Test'
-      BASEURL     = '/dqm/online-test'
+elif HOSTALIAS == 'dqm-prod-offsite':
+  COLLPORT    = 9090
+  SERVERPORT  = 8030
+  SERVICENAME = 'Online'
+  BASEURL     = '/dqm/online'
+  UPLOADDIR   = '/dqmdata/dqm/uploads'
+  FILEREPO    = {'Original': '/dqmdata/dqm/repository/original/OnlineData'}
+  COLLHOST    = 'srv-c2f11-29-01.cms'
 
-    else:
-      SERVICENAME = 'Online'
-      BASEURL     = '/dqm/online'
-      UPLOADDIR   = "/dqmdata/dqm/uploads"
+elif HOSTALIAS == 'dqm-integration':
+  COLLPORT    = 9090
+  SERVERPORT  = 8030
+  SERVICENAME = 'Online Playback'
+  BASEURL     = '/dqm/online-playback'
+
+elif HOSTALIAS == 'dqm-test':
+  COLLPORT    = 9090
+  SERVERPORT  = 8030
+  SERVICENAME = 'Online Test'
+  BASEURL     = '/dqm/online-test'
+  UPLOADDIR   = '/dqmdata/dqm/uploads'
+  FILEREPO    = {'Original': '/dqmdata/dqm/repository/original/OnlineData'}
+  COLLHOST    = 'srv-c2f11-29-01.cms'
+
+elif HOSTALIAS == 'dqm-C2D07-01':
+  COLLPORT    = 9090
+  SERVERPORT  = 8030
+  SERVICENAME = 'Online'
+  BASEURL     = '/dqm/online'
+  UPLOADDIR   = '/dqmdata/dqm/uploads'
+  FILEREPO    = {'Original': '/dqmdata/dqm/repository/original/OnlineData'}
+  COLLHOST    = 'srv-c2f11-29-01.cms'
+
+elif HOSTALIAS == 'dqm-C2D07-02':
+  COLLPORT    = 9090
+  SERVERPORT  = 8030
+  SERVICENAME = 'Online'
+  BASEURL     = '/dqm/online'
+  UPLOADDIR   = '/dqmdata/dqm/uploads'
+  FILEREPO    = {'Original': '/dqmdata/dqm/repository/original/OnlineData'}
+  COLLHOST    = 'srv-c2f11-29-01.cms'
+
+elif HOSTALIAS == 'dqm-C2D07-11':
+  COLLPORT    = 9090
+  SERVERPORT  = 8030
+  SERVICENAME = 'Online Playback'
+  BASEURL     = '/dqm/online-playback'
+
+elif HOSTALIAS == 'dqm-C2D07-12':
+  COLLPORT    = 9090
+  SERVERPORT  = 8030
+  SERVICENAME = 'Online Test'
+  BASEURL     = '/dqm/online-test'
+  UPLOADDIR   = '/dqmdata/dqm/uploads'
+  FILEREPO    = {'Original': '/dqmdata/dqm/repository/original/OnlineData'}
+  COLLHOST    = 'srv-c2f11-29-01.cms'
+
+elif HOSTALIAS == 'srv-c2f11-29-01':
+  COLLPORT    = 9090
+  SERVERPORT  = 8030
+  SERVICENAME = 'Online'
+  BASEURL     = '/dqm/online'
+  UPLOADDIR   = '/dqmdata/dqm/uploads'
+  FILEREPO    = {'Original': '/dqmdata/dqm/repository/original/OnlineData'}
+  COLLHOST    = 'localhost'
+
+elif HOSTALIAS == 'srv-c2f11-29-02':
+  COLLPORT    = 9090
+  SERVERPORT  = 8030
+  SERVICENAME = 'Online'
+  BASEURL     = '/dqm/online'
+  UPLOADDIR   = '/dqmdata/dqm/uploads'
+  FILEREPO    = {'Original': '/dqmdata/dqm/repository/original/OnlineData'}
+  COLLHOST    = 'srv-c2f11-29-01.cms'
+
+elif HOSTALIAS == 'srv-c2f11-29-03':
+  COLLPORT    = 9090
+  SERVERPORT  = 8030
+  SERVICENAME = 'Online Playback'
+  BASEURL     = '/dqm/online-playback'
+
+elif HOSTALIAS == 'srv-c2f11-29-04':
+  COLLPORT    = 9090
+  SERVERPORT  = 8030
+  SERVICENAME = 'Online Test'
+  BASEURL     = '/dqm/online-test'
+  UPLOADDIR   = '/dqmdata/dqm/uploads'
+  FILEREPO    = {'Original': '/dqmdata/dqm/repository/original/OnlineData'}
+  COLLHOST    = 'srv-c2f11-29-01.cms'
 
 # Server configuration.
 modules = ("Monitoring.DQM.GUI",)
